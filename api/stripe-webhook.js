@@ -9,8 +9,8 @@ module.exports=async(req,res)=>{
   const session=event.data.object;
   if(session.payment_status==='paid'){
    if(!process.env.RESEND_API_KEY||!process.env.PEDIDOS_EMAIL||!process.env.RESEND_FROM_EMAIL){console.error('E-mail não configurado para o pedido',session.id);return res.status(503).send('Envio não configurado')}
-   const fields=['recipient','name','genre','qualities','memories','message','email','phone'];
-   const labels=['Destinatário','Nome','Estilo','Qualidades','Memórias','Mensagem','E-mail','Telefone'];
+   const fields=['recipient','name','genre','voice','qualities','memories','message','email','phone'];
+   const labels=['Destinatário','Nome','Estilo','Voz','Qualidades','Memórias','Mensagem','E-mail','Telefone'];
    const body=['PEDIDO PAGO — CANÇÃO DE FÉ','Stripe Session: '+session.id,'Pagamento: '+session.payment_status,'',...fields.map((f,i)=>labels[i]+': '+(session.metadata?.[f]||'-'))].join('\n');
    try{const response=await fetch('https://api.resend.com/emails',{method:'POST',headers:{Authorization:'Bearer '+process.env.RESEND_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({from:process.env.RESEND_FROM_EMAIL,to:[process.env.PEDIDOS_EMAIL],subject:'Canção de Fé — Pedido pago '+session.id,text:body})});if(!response.ok)throw Error('Resend HTTP '+response.status)}catch(e){console.error('Falha ao notificar pedido',session.id,e.message);return res.status(500).send('Falha no envio')}
   }
