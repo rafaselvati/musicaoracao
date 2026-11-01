@@ -1,10 +1,60 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pagamento seguro | Canção de Fé</title><script src="https://js.stripe.com/dahlia/stripe.js"></script><style>:root{--cream:#fffbee;--navy:#142038;--orange:#bd4b24;--line:#e3d4c4}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,var(--cream),white);color:var(--navy);font:16px Arial,sans-serif}header{text-align:center;padding:23px;font:600 28px Georgia,serif;border-bottom:1px solid var(--line)}main{max-width:790px;margin:auto;padding:35px 16px 70px}h1{text-align:center;font:600 36px Georgia,serif}.card{background:white;border:1px solid var(--line);border-radius:18px;padding:24px;margin:20px 0}.summary{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.7;font-size:14px}.muted{color:#63718a;line-height:1.6}.error{color:#a32622}a{color:var(--orange)}#checkout-form{min-height:280px}#checkout-form:empty:after{content:'Carregando formulário seguro...';color:#63718a}</style></head><body><header>Canção de Fé</header><main><a href="formulario.html">← Voltar ao formulário</a><h1>Finalize sua homenagem</h1><p class="muted" style="text-align:center">Pagamento único e seguro, processado pela Stripe.</p><section class="card"><h2>Resumo do pedido</h2><div class="summary" id="summary"></div></section><section class="card"><h2>Pagamento</h2><p class="muted">O Pix será exibido se estiver disponível e habilitado na sua conta Stripe.</p><div id="checkout-form"></div><p id="error" class="error" role="alert"></p></section></main><script>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagamento seguro | Canção de Fé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/dahlia/stripe.js"></script>
+<style>
+:root{--cream:#fffbef;--ink:#142038;--orange:#bd4b24;--line:#e9dccc;--muted:#63718a}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:16px 'DM Sans',Arial,sans-serif}
+a{color:var(--orange)}.site-header{height:84px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;position:relative;padding:0 22px}
+.brand{font:600 29px 'Playfair Display',Georgia,serif;text-decoration:none;color:var(--ink)}.header-back{position:absolute;left:max(22px,calc((100vw - 960px)/2));text-decoration:none;color:var(--ink);font-size:14px}
+main{max-width:790px;margin:0 auto;padding:34px 18px 76px}.order-title{font:600 30px 'Playfair Display',Georgia,serif;margin:0 0 14px}
+.order-panel{background:white;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:27px 0;margin-bottom:30px}
+.order-row{display:flex;align-items:center;gap:17px}.song-symbol{width:68px;height:68px;border-radius:50%;background:#f7e9d8;color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.song-main{flex:1;min-width:0}.song-main strong{display:block;font:600 20px 'Playfair Display',Georgia,serif}.song-main span{display:block;color:var(--muted);font-size:14px;line-height:1.7;overflow-wrap:anywhere}
+.price{font-weight:700;color:#18754b;font-size:24px;white-space:nowrap}.price small{display:block;font-size:12px;color:var(--muted);font-weight:400;text-align:right}
+.details{margin-top:19px;border-top:1px solid #f0e8de;padding-top:13px}.details summary{cursor:pointer;font-size:14px;color:var(--orange);font-weight:700}.details pre{font:13px/1.8 'DM Sans',Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere;margin:14px 0 0}
+.notice{background:#edf6ee;border:1px solid #c9e2ce;border-radius:18px;padding:21px 23px;display:flex;align-items:flex-start;gap:15px;margin-bottom:23px}.notice-icon{font-size:26px;color:#16734e}.notice strong{display:block;font-size:17px;color:#155d42;margin-bottom:6px}.notice p{margin:0;color:#315e4c;line-height:1.65;font-size:14px}
+.secure{display:flex;align-items:center;gap:8px;color:#647184;font-size:14px;margin:24px 0 15px}.payment-card{background:white;border:1px solid var(--line);border-radius:17px;padding:25px 26px;box-shadow:0 8px 30px rgba(65,40,15,.045)}
+.payment-card h2{font:600 25px 'Playfair Display',Georgia,serif;margin:0 0 9px}.payment-card .sub{margin:0 0 23px;color:var(--muted);font-size:14px;line-height:1.6}
+#checkout-form{min-height:280px}#checkout-form:empty:after{content:'Carregando pagamento seguro...';color:var(--muted)}.error{color:#b42318;line-height:1.5;margin:15px 0 0}
+.customer{margin-top:22px;padding-top:18px;border-top:1px solid #f0e8de;font-size:13px;color:var(--muted)}.customer strong{color:var(--ink);overflow-wrap:anywhere}
+.bottom{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
+@media(max-width:620px){.site-header{height:73px}.brand{font-size:25px}.header-back{left:15px;font-size:12px}.header-back .back-label{display:none}main{padding:24px 15px 54px}.order-title{font-size:26px}.order-row{gap:11px}.song-symbol{width:51px;height:51px;font-size:23px}.song-main strong{font-size:17px}.song-main span{font-size:12px}.price{font-size:19px}.payment-card{padding:20px 15px}.notice{padding:17px}}
+</style>
+</head>
+<body>
+<header class="site-header"><a class="header-back" href="formulario.html" aria-label="Voltar ao formulário">← <span class="back-label">Voltar ao formulário</span></a><a class="brand" href="index.html">Canção de Fé</a></header>
+<main>
+<h1 class="order-title">Detalhes do pedido</h1>
+<section class="order-panel" aria-label="Resumo da sua canção">
+ <div class="order-row"><div class="song-symbol" aria-hidden="true">♫</div><div class="song-main"><strong>Canção cristã personalizada</strong><span>Para <b id="song-name">—</b> · <span id="song-recipient" style="display:inline">—</span></span><span>Estilo: <span id="song-genre" style="display:inline">—</span> · Voz: <span id="song-voice" style="display:inline">—</span></span></div><div class="price">R$ 47,00<small>Pagamento único</small></div></div>
+ <details class="details"><summary>Ver todos os detalhes da homenagem</summary><pre id="summary"></pre></details>
+</section>
+<section class="notice"><div class="notice-icon" aria-hidden="true">♧</div><div><strong>Uma homenagem feita especialmente para você</strong><p>Sua música será produzida manualmente após a confirmação do pagamento. A entrega será combinada por e-mail ou WhatsApp.</p></div></section>
+<div class="secure">🔒 Pagamento criptografado e processado pela Stripe</div>
+<section class="payment-card" aria-label="Pagamento"><h2>Finalize seu pagamento</h2><p class="sub">Escolha uma das formas de pagamento disponíveis abaixo. Valor total: <strong>R$ 47,00</strong>.</p><div id="checkout-form"></div><p id="error" class="error" role="alert"></p><div class="customer">E-mail informado para contato: <strong id="customer-email">—</strong></div></section>
+<p class="bottom">Pagamento único · Canção de Fé · Seus dados de pagamento são processados com segurança pela Stripe.</p>
+</main>
+<script>
 let order={};try{order=JSON.parse(sessionStorage.getItem('cdf_pedido')||'{}')}catch(e){}
 const fields=[['recipient','Para'],['name','Nome'],['genre','Estilo'],['voice','Voz'],['qualities','Qualidades'],['memories','Memórias'],['message','Mensagem'],['email','E-mail'],['phone','WhatsApp']];
-document.getElementById('summary').textContent=fields.map(([k,label])=>label+': '+(k==='genre'&&order.genre==='Outro estilo'?(order.genreOther||'-'):(order[k]||'-'))).join('\n')+'\n\nValor base: R$ 47,00';
+const text=(v)=>String(v||'-');
+const genre=order.genre==='Outro estilo'?(order.genreOther||'Outro estilo'):order.genre;
+document.getElementById('song-name').textContent=text(order.name);
+document.getElementById('song-recipient').textContent=text(order.recipient);
+document.getElementById('song-genre').textContent=text(genre);
+document.getElementById('song-voice').textContent=text(order.voice||'Sem preferência');
+document.getElementById('customer-email').textContent=text(order.email);
+document.getElementById('summary').textContent=fields.map(([k,label])=>label+': '+text(k==='genre'?genre:order[k])).join('\n');
 const errorEl=document.getElementById('error');
 async function start(){try{if(!order.email)throw Error('Preencha o formulário antes de pagar.');const response=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order})});const data=await response.json();if(!response.ok)throw Error(data.error||'Não foi possível iniciar o pagamento.');if(!data.publishable_key||!data.client_secret)throw Error('Chave pública ou sessão Stripe indisponível.');const stripe=Stripe(data.publishable_key);const clientSecret=Promise.resolve(data.client_secret);const checkout=stripe.initCheckoutFormSdk({clientSecret,appearance:{theme:'stripe',labels:'auto',inputs:'spaced',variables:{colorPrimary:'#bd4b24',colorText:'#142038',colorBackground:'#ffffff',borderRadius:'8px'}}});const form=checkout.createForm({layout:'expanded'});form.mount('#checkout-form');const loaded=await checkout.loadActions();if(loaded.type==='success'){form.on('confirm',async event=>{try{const result = await loaded.actions.confirm({
   formConfirmEvent: event,
   returnUrl: window.location.origin + "/sucesso.html"
 });if(result?.error)errorEl.textContent=result.error.message||'Pagamento não concluído.'}catch(e){errorEl.textContent=e.message||'Falha ao confirmar pagamento.'}})}else throw Error('Não foi possível carregar o checkout.')}catch(e){errorEl.textContent=e.message||'Erro ao carregar checkout.'}}
-start();</script></body></html>
+start();</script>
+</body></html>
