@@ -1,1 +1,7 @@
-Checkout Hotmart incorporado na etapa final via iframe. A exibição pode ser bloqueada pela Hotmart (X-Frame-Options/CSP). Nesse caso use o link externo disponível. Sem banco de dados; o envio do pedido continua manual e precisa de emailPedidos/whatsappPedidos configurados. Hospede em Vercel e teste em navegador.
+Canção de Fé — checkout em página separada
+
+Publique index.html e checkout.html na mesma pasta na Vercel.
+O formulário encaminha para checkout.html após a revisão.
+O pagamento Hotmart pode ser aberto em tela inteira para evitar barra de rolagem interna.
+Os dados do formulário ficam temporariamente na sessionStorage do navegador e NÃO são enviados automaticamente ao vendedor nem à Hotmart.
+Configure emailPedidos e whatsappPedidos em checkout.html para habilitar o envio manual do resumo.
