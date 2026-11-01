@@ -1,16 +1,28 @@
-CANÇÃO DE FÉ — DLOCAL GO SANDBOX (VALIDAÇÃO DE PEDIDO)
+CANÇÃO DE FÉ — DLOCAL GO SMARTFIELDS SANDBOX V3
 
-Este pacote mantém as cinco etapas, os contatos, o resumo e os dois adicionais.
-O valor é recalculado no servidor pela função /api/payment-preview.
-Há seleção visual Pix/cartão e teste de conexão /api/dlocal-status.
+Publique o conteúdo desta pasta na Vercel. Mantenha a integração somente em Sandbox.
 
-ATENÇÃO: NÃO GERA PIX, QR CODE, LINK DE PAGAMENTO NEM COBRANÇA.
-A documentação geral da dLocal (api.dlocal.com) usa autenticação e endpoints DIFERENTES da dLocal Go (api-sbx.dlocalgo.com). Não reutilize a API empresarial.
-Precisamos do link específico da documentação dLocal Go para CRIAR PAGAMENTO e CONSULTAR STATUS para ativar cobrança com segurança.
+Variáveis na Vercel:
+DLOCAL_API_KEY = API Key Sandbox (ou DLOCALGO_API_KEY)
+DLOCAL_SECRET_KEY = Secret Key Sandbox (ou DLOCALGO_API_SECRET)
+DLOCAL_SMARTFIELDS_KEY = SmartFields API Key Sandbox
+PUBLIC_SITE_URL = https://seu-dominio.vercel.app
 
-Na Vercel, configure as credenciais Sandbox:
-DLOCAL_API_KEY
-DLOCAL_SECRET_KEY
-Nunca coloque chaves no HTML ou envie por chat.
+Depois de salvar as variáveis, faça Redeploy.
 
-Para pagamentos reais e entrega automática, será preciso implementar e testar confirmação autenticada de pagamento, e-mail transacional e tratamento seguro de pedidos. Este pacote não faz isso.
+A última etapa do formulário permite criar um pagamento Sandbox com cartão,
+montar os campos seguros SmartFields e solicitar confirmação pela API.
+Use exclusivamente os dados de cartão de teste oficiais da dLocal Go.
+
+IMPORTANTE:
+- Pix ainda NÃO está implementado; o botão Pix não gera QR Code.
+- O webhook atual apenas responde à notificação. NÃO valida a assinatura nem
+  encaminha pedidos. Não usar em produção.
+- Sem banco de dados e sem envio automático de e-mail nesta versão.
+- O pagamento pode exigir 3DS e redirecionamento externo.
+- Verifique status no painel dLocal Go. Uma resposta HTTP 200 não equivale
+  necessariamente a pagamento aprovado.
+- Antes de publicar em produção: validar webhook, implementar entrega segura
+  do pedido, reconciliação de valores e idempotência das cobranças.
+
+Documentação: https://docs.dlocalgo.com/integration-api/welcome-to-dlocal-go-api/transparent-checkout
