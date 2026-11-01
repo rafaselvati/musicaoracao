@@ -26,3 +26,5 @@ IMPORTANTE:
   do pedido, reconciliação de valores e idempotência das cobranças.
 
 Documentação: https://docs.dlocalgo.com/integration-api/welcome-to-dlocal-go-api/transparent-checkout
+
+DIAGNÓSTICO V4: ao clicar em Preparar pagamento de teste, se a dLocal Go recusar a criação, a página mostra HTTP, código e mensagem de erro fornecidos pela API (quando disponíveis). Não compartilhe chaves, tokens, dados de cartão ou capturas de configurações secretas. Caso a mensagem não venha, consulte os logs da função api/create-payment na Vercel.
