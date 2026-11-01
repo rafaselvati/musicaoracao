@@ -1,11 +1,1 @@
-CANÇÃO DE FÉ — HOTMART WIDGET (CORREÇÃO DO BOTÃO)
-
-CORREÇÃO: o botão de pagamento antes era inserido dinamicamente após o script da Hotmart carregar e tinha onclick="return false", o que podia deixá-lo sem ação. Agora existe desde o carregamento do HTML e possui link funcional como alternativa.
-
-COMO USAR:
-1. Publique a pasta com index.html no Vercel ou abra index.html para teste.
-2. Preencha as cinco etapas, informe contatos e clique em Pagar com segurança.
-3. Se o widget carregar corretamente, a Hotmart gerencia a abertura do pagamento. Se não carregar, o link abre o checkout hospedado da Hotmart (sem bloqueio).
-4. Configure emailPedidos e whatsappPedidos em CONFIG dentro de index.html para habilitar o envio do resumo.
-
-ATENÇÃO: nenhum pagamento foi executado ou validado neste ambiente. Teste o fluxo publicado com as ferramentas de teste da Hotmart. Dados do formulário não são enviados automaticamente à Hotmart. Order bumps e upsell devem ser configurados na Hotmart.
+Checkout Hotmart incorporado na etapa final via iframe. A exibição pode ser bloqueada pela Hotmart (X-Frame-Options/CSP). Nesse caso use o link externo disponível. Sem banco de dados; o envio do pedido continua manual e precisa de emailPedidos/whatsappPedidos configurados. Hospede em Vercel e teste em navegador.
