@@ -1,18 +1,9 @@
-CANÇÃO DE FÉ — SEM BANCO DE DADOS
+CANÇÃO DE FÉ — HOTMART WIDGET
 
-1. Abra index.html no navegador para testar.
-2. No início do JavaScript, configure CONFIG:
-   checkoutUrl: link do seu checkout (Mercado Pago, Kiwify, etc.)
-   emailPedidos: endereço que receberá os pedidos
-   whatsappPedidos: número com DDI + DDD, somente dígitos (ex.: 5562999999999)
-3. Publique index.html no GitHub/Vercel.
+Checkout Hotmart configurado: https://pay.hotmart.com/E108285645P?checkoutMode=2
 
-IMPORTANTE:
-- O site NÃO processa cartões nem confirma pagamentos automaticamente.
-- O botão 'Ir para o pagamento' abre o checkout configurado em outra aba.
-- O cliente precisa enviar o pedido manualmente por e-mail ou WhatsApp.
-- Um mailto não garante o envio; depende do aplicativo de e-mail do cliente.
-- Sem banco de dados, não há painel, histórico ou recuperação de pedidos.
-- O responsável deve conferir o pagamento no provedor antes de iniciar a produção.
-- Ajuste seus termos, política de privacidade, prazo, preço e regras de reembolso antes de vender.
-- Não copie marca, imagens de clientes ou depoimentos de terceiros sem autorização.
+Publique index.html na Vercel. O widget oficial abre o checkout conforme suporte/configuração da Hotmart.
+
+ATENÇÃO: Os detalhes preenchidos nas cinco etapas NÃO são transmitidos automaticamente à Hotmart. O comprador deve enviar o resumo por e-mail/WhatsApp; configure emailPedidos e whatsappPedidos no início do JavaScript em index.html.
+
+A confirmação de pagamento deve ser conferida no painel Hotmart. Os order bumps e upsell devem ser criados e vinculados na Hotmart. Não há banco de dados, painel administrativo nem confirmação automática neste projeto.
