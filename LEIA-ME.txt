@@ -1,1 +1,18 @@
-Checkout Hotmart incorporado na etapa final via iframe. A exibição pode ser bloqueada pela Hotmart (X-Frame-Options/CSP). Nesse caso use o link externo disponível. Sem banco de dados; o envio do pedido continua manual e precisa de emailPedidos/whatsappPedidos configurados. Hospede em Vercel e teste em navegador.
+CANÇÃO DE FÉ — DLOCAL GO SANDBOX (FASE 1)
+
+Projeto recebido preservado: 5 etapas + contato + revisão. Checkout Hotmart removido.
+
+IMPLEMENTADO:
+- Adicionais selecionáveis com total recalculado (valor base demonstrativo R$ 47).
+- Destaque visual do Pix.
+- Função Vercel GET /api/dlocal-status que valida as chaves no endpoint oficial /v1/me do Sandbox.
+- Nenhuma credencial no HTML.
+
+CONFIGURAÇÃO VERCEL:
+Settings > Environment Variables:
+DLOCAL_API_KEY = sua chave Sandbox
+DLOCAL_SECRET_KEY = sua chave Sandbox
+Redeploy. Acesse o formulário e clique Testar conexão.
+
+ATENÇÃO: ESTE PROJETO AINDA NÃO COBRA NEM ENVIA PEDIDOS. A etapa de cobrança e confirmação por webhook depende da documentação validada de criação de pagamentos dLocal Go e da configuração de notificações e e-mail. Não use como checkout ativo.
+Não envie chaves privadas pelo chat nem coloque no GitHub.
