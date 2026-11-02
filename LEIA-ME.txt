@@ -1,9 +1,12 @@
-CANÇÃO DE FÉ — PROTÓTIPO VISUAL PT-BR
+CANÇÃO DE FÉ — SITE COM PÁGINA INICIAL
 
-Abra index.html no navegador ou publique a pasta na Vercel.
+index.html: nova página inicial em português.
+formulario.html: formulário original preservado.
+checkout.html: checkout Hotmart original preservado.
+capa.png: imagem ilustrativa própria.
 
-Inclui as 5 etapas interativas, transição e checkout demonstrativo.
-Cores e tipografia inspiradas nas capturas fornecidas; Playfair Display e DM Sans são fontes alternativas, não identificação comprovada das fontes originais.
-As imagens/depoimentos do PrayerSong não foram copiados. Foram adicionados blocos ilustrativos originais.
-Não há cobrança, backend, envio de pedidos ou banco de dados integrados.
-Antes de vender: configurar pagamentos, persistência, termos e política de privacidade.
+Publique todos os arquivos na mesma pasta na Vercel.
+
+A página original PrayerSong foi usada como referência de seções; não foram copiados depoimentos, logos, músicas ou endossos de terceiros.
+
+ATENÇÃO: o checkout Hotmart não envia automaticamente os dados do formulário ao vendedor; isso requer integração separada.

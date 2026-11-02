@@ -1,7 +1,0 @@
-{
-  "name": "prayersong-coletor-publico",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {"start": "node coletar.js"},
-  "dependencies": {"playwright": "^1.58.0"}
-}
