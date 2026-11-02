@@ -23,7 +23,7 @@ main{max-width:790px;margin:0 auto;padding:34px 18px 76px}.order-title{font:600 
 .secure{display:flex;align-items:center;gap:8px;color:#647184;font-size:14px;margin:24px 0 15px}.payment-card{background:white;border:1px solid var(--line);border-radius:17px;padding:25px 26px;box-shadow:0 8px 30px rgba(65,40,15,.045)}
 .payment-card h2{font:600 25px 'Playfair Display',Georgia,serif;margin:0 0 9px}.payment-card .sub{margin:0 0 23px;color:var(--muted);font-size:14px;line-height:1.6}
 #checkout-form{min-height:280px}#checkout-form:empty:after{content:'Carregando pagamento seguro...';color:var(--muted)}.error{color:#b42318;line-height:1.5;margin:15px 0 0}
-.customer{margin-top:22px;padding-top:18px;border-top:1px solid #f0e8de;font-size:13px;color:var(--muted)}.customer strong{color:var(--ink);overflow-wrap:anywhere}
+.offers{margin:22px 0 18px}.offers h2{font:600 22px 'Playfair Display',Georgia,serif;margin:0 0 8px}.offers-intro{color:var(--muted);font-size:13px;margin:0 0 13px}.offer{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:15px;margin:10px 0;cursor:pointer;background:#fff}.offer:has(input:checked){border-color:#bd4b24;background:#fff7ef}.offer input{width:19px;height:19px;accent-color:#bd4b24;margin-top:3px;flex-shrink:0}.offer strong{display:block;font-size:15px}.offer small{display:block;color:var(--muted);line-height:1.5;margin-top:4px}.offer-price{font-weight:700;white-space:nowrap;margin-left:auto}.offer-total{padding:13px 2px;font-size:16px;display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:15px}.bundle{color:#16734e;font-size:13px;font-weight:700;margin:0 0 12px;min-height:18px}.customer{margin-top:22px;padding-top:18px;border-top:1px solid #f0e8de;font-size:13px;color:var(--muted)}.customer strong{color:var(--ink);overflow-wrap:anywhere}
 .bottom{margin-top:24px;text-align:center;color:var(--muted);font-size:13px;line-height:1.6}
 @media(max-width:620px){.site-header{height:73px}.brand{font-size:25px}.header-back{left:15px;font-size:12px}.header-back .back-label{display:none}main{padding:24px 15px 54px}.order-title{font-size:26px}.order-panel{padding:16px 15px 0;border-radius:15px}.order-row{grid-template-columns:43px minmax(0,1fr);gap:11px}.song-symbol{width:43px;height:43px;font-size:21px}.song-main strong{font-size:16px}.song-main span{font-size:12px}.price{grid-column:2;justify-self:start;text-align:left;padding:4px 0 0;font-size:20px}.price small{text-align:left}.details{margin:14px -15px 0}.details summary{padding:13px 15px}.details pre{padding:0 15px 16px}.payment-card{padding:20px 15px}.notice{padding:17px}}
 </style>
@@ -39,12 +39,13 @@ fbq('init','1497991535722252');fbq('track','PageView');
 <main>
 <h1 class="order-title">Detalhes do pedido</h1>
 <section class="order-panel" aria-label="Resumo da sua canção">
- <div class="order-row"><div class="song-symbol" aria-hidden="true">♫</div><div class="song-main"><strong>Canção cristã personalizada</strong><span>Para <b id="song-name">—</b> · <span id="song-recipient" style="display:inline">—</span></span><span>Estilo: <span id="song-genre" style="display:inline">—</span> · Voz: <span id="song-voice" style="display:inline">—</span></span></div><div class="price">R$ 47,00<small>Pagamento único</small></div></div>
+ <div class="order-row"><div class="song-symbol" aria-hidden="true">♫</div><div class="song-main"><strong>Canção cristã personalizada</strong><span>Para <b id="song-name">—</b> · <span id="song-recipient" style="display:inline">—</span></span><span>Estilo: <span id="song-genre" style="display:inline">—</span> · Voz: <span id="song-voice" style="display:inline">—</span></span></div><div class="price">R$ 9,90<small>Pagamento único</small></div></div>
  <details class="details"><summary>Ver todos os detalhes da homenagem</summary><pre id="summary"></pre></details>
 </section>
 <section class="notice"><div class="notice-icon" aria-hidden="true">♧</div><div><strong>Uma homenagem feita especialmente para você</strong><p>Sua música será produzida manualmente após a confirmação do pagamento. A entrega será combinada por e-mail ou WhatsApp.</p></div></section>
+<section class="offers" aria-label="Personalize seu pedido"><h2>Deixe sua homenagem ainda mais especial</h2><p class="offers-intro">Ofertas opcionais. Marque apenas o que desejar adicionar à sua compra.</p><label class="offer"><input id="bump-second" type="checkbox"><span><strong>Adicionar uma segunda versão da música</strong><small>Receba mais uma versão da mesma homenagem, podendo escolher outro estilo musical. Combinaremos os detalhes após o pagamento.</small></span><span class="offer-price">+ R$ 7,90</span></label><label class="offer"><input id="bump-video" type="checkbox"><span><strong>Adicionar música + vídeo personalizado</strong><small>Uma versão em vídeo da homenagem acompanhada de música, produzida após o pedido.</small></span><span class="offer-price">+ R$ 19,90</span></label><p class="bundle" id="bundle-label" aria-live="polite"></p><div class="offer-total"><strong>Total do pedido</strong><strong id="offer-total">R$ 9,90</strong></div></section>
 <div class="secure">🔒 Pagamento criptografado e processado pela Stripe</div>
-<section class="payment-card" aria-label="Pagamento"><h2>Finalize seu pagamento</h2><p class="sub">Escolha uma das formas de pagamento disponíveis abaixo. Valor total: <strong>R$ 47,00</strong>.</p><div id="checkout-form"></div><p id="error" class="error" role="alert"></p><div class="customer">E-mail informado para contato: <strong id="customer-email">—</strong></div></section>
+<section class="payment-card" aria-label="Pagamento"><h2>Finalize seu pagamento</h2><p class="sub">Escolha uma das formas de pagamento disponíveis abaixo. Valor total: <strong id="payment-total">R$ 9,90</strong>.</p><div id="checkout-form"></div><p id="error" class="error" role="alert"></p><div class="customer">E-mail informado para contato: <strong id="customer-email">—</strong></div></section>
 <p class="bottom">Pagamento único · Canção de Fé · Seus dados de pagamento são processados com segurança pela Stripe.</p>
 </main>
 <script>
@@ -59,9 +60,27 @@ document.getElementById('song-voice').textContent=text(order.voice||'Sem prefer�
 document.getElementById('customer-email').textContent=text(order.email);
 document.getElementById('summary').textContent=fields.map(([k,label])=>label+': '+text(k==='genre'?genre:order[k])).join('\n');
 const errorEl=document.getElementById('error');
-async function start(){try{if(!order.email)throw Error('Preencha o formulário antes de pagar.');const response=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order})});const data=await response.json();if(!response.ok)throw Error(data.error||'Não foi possível iniciar o pagamento.');if(!data.publishable_key||!data.client_secret)throw Error('Chave pública ou sessão Stripe indisponível.');try{if(!sessionStorage.getItem('cdf_meta_checkout_sent')){fbq('track','InitiateCheckout',{value:47.00,currency:'BRL',num_items:1});sessionStorage.setItem('cdf_meta_checkout_sent','1')}}catch(e){}const stripe=Stripe(data.publishable_key);const clientSecret=Promise.resolve(data.client_secret);const checkout=stripe.initCheckoutFormSdk({clientSecret,appearance:{theme:'stripe',labels:'auto',inputs:'spaced',variables:{colorPrimary:'#bd4b24',colorText:'#142038',colorBackground:'#ffffff',borderRadius:'8px'}}});const form=checkout.createForm({layout:'expanded'});form.mount('#checkout-form');const loaded=await checkout.loadActions();if(loaded.type==='success'){form.on('confirm',async event=>{try{const result = await loaded.actions.confirm({
-  formConfirmEvent: event,
-  returnUrl: window.location.origin + "/sucesso.html"
-});if(result?.error)errorEl.textContent=result.error.message||'Pagamento não concluído.'}catch(e){errorEl.textContent=e.message||'Falha ao confirmar pagamento.'}})}else throw Error('Não foi possível carregar o checkout.')}catch(e){errorEl.textContent=e.message||'Erro ao carregar checkout.'}}
-start();</script>
+const secondEl=document.getElementById('bump-second');
+const videoEl=document.getElementById('bump-video');
+const brl=cents=>(cents/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let requestVersion=0;
+function selected(){return {secondSong:secondEl.checked,musicVideo:videoEl.checked}}
+function totalCents(){const {secondSong,musicVideo}=selected();return secondSong&&musicVideo?3490:990+(secondSong?790:0)+(musicVideo?1990:0)}
+function updateTotals(){const t=brl(totalCents());document.getElementById('offer-total').textContent=t;document.getElementById('payment-total').textContent=t;document.getElementById('bundle-label').textContent=secondEl.checked&&videoEl.checked?'Pacote completo: os 3 itens por R$ 34,90 — você economiza R$ 2,80!':''}
+async function start(){const version=++requestVersion;updateTotals();errorEl.textContent='';const container=document.getElementById('checkout-form');container.replaceChildren();
+ try{
+  if(!order.email)throw Error('Preencha o formulário antes de pagar.');
+  const response=await fetch('/api/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order,offers:selected()})});
+  const data=await response.json();if(version!==requestVersion)return;
+  if(!response.ok)throw Error(data.error||'Não foi possível iniciar o pagamento.');
+  if(!data.publishable_key||!data.client_secret)throw Error('Chave pública ou sessão Stripe indisponível.');
+  try{if(!sessionStorage.getItem('cdf_meta_checkout_sent')){fbq('track','InitiateCheckout',{value:totalCents()/100,currency:'BRL',num_items:1+Number(secondEl.checked)+Number(videoEl.checked)});sessionStorage.setItem('cdf_meta_checkout_sent','1')}}catch(e){}
+  const stripe=Stripe(data.publishable_key);
+  const checkout=stripe.initCheckoutFormSdk({clientSecret:Promise.resolve(data.client_secret),appearance:{theme:'stripe',labels:'auto',inputs:'spaced',variables:{colorPrimary:'#bd4b24',colorText:'#142038',colorBackground:'#ffffff',borderRadius:'8px'}}});
+  const form=checkout.createForm({layout:'expanded'});if(version!==requestVersion)return;form.mount('#checkout-form');
+  const loaded=await checkout.loadActions();if(version!==requestVersion){try{form.unmount()}catch(e){}return}
+  if(loaded.type==='success'){form.on('confirm',async event=>{try{const result=await loaded.actions.confirm({formConfirmEvent:event,returnUrl:window.location.origin+'/sucesso.html'});if(result?.error)errorEl.textContent=result.error.message||'Pagamento não concluído.'}catch(e){errorEl.textContent=e.message||'Falha ao confirmar pagamento.'}})}else throw Error('Não foi possível carregar o checkout.');
+ }catch(e){if(version===requestVersion)errorEl.textContent=e.message||'Erro ao carregar checkout.'}
+}
+secondEl.addEventListener('change',start);videoEl.addEventListener('change',start);start();</script>
 </body></html>
