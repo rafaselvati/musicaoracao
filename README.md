@@ -76,3 +76,9 @@ Não houve cobrança real nem validação na sua conta Stripe/Vercel, pois essas
 Os cinco PDFs são originais, em espanhol. As orações não são atribuídas a textos bíblicos; os materiais indicam referências para leitura, sem reproduzir traduções protegidas. O diário foi diagramado para leitura/impressão, sem campos interativos. Gerador em content-tools/create_books.py; requer ReportLab e fontes DejaVu.
 
 `npm test` verifica preços, planos, assinatura, confirmação, entrega, tokens, expiração e bloqueio de acesso indevido. Testes simulam o Stripe e não substituem uma compra de teste na conta real.
+
+## Google Analytics
+
+ID: G-8D1Y6BW9VN. Eventos: page_view (página), select_item (clique na oferta), checkout_view (checkout aberto), begin_checkout (formulário Stripe carregado) e purchase (compra real validada pelo servidor no retorno do checkout). offer_plan distingue esencial/completa/audios. As compras usam identificador estatístico, sem expor IDs Stripe ou tokens de entrega. Reabrir um link de e-mail não registra nova compra. Deduplicação por pedido no navegador e transaction_id no GA4.
+
+No Analytics, acompanhe Relatórios → Tempo real para validar a instalação e os eventos. Compare usuários por evento, não apenas contagem total (uma pessoa pode clicar mais de uma vez). Dados começam após o deploy na Vercel; não são retroativos. Prévia, localhost e pagamentos Stripe de teste não registram compras. Bloqueadores, cookies e fechamento da página podem impedir medições; o Stripe permanece a fonte do total financeiro. Não há envio de compra pelo webhook para o GA4 nesta versão.

@@ -1,5 +1,7 @@
 const accessStatus=document.getElementById('access-status'),error=document.getElementById('delivery-error'),grid=document.getElementById('delivery-grid'),retry=document.getElementById('access-retry');
 const params=new URLSearchParams(location.search),sessionId=params.get('session_id');let token=params.get('token'),attempts=0,busy=false;
+try{history.replaceState(null,'',location.pathname)}catch{}
+window.SiteAnalytics?.init();
 try{if(token)storeToken(token);else if(!sessionId)token=sessionStorage.getItem('septimo_delivery_token')}catch{}
 function storeToken(value){token=value;try{sessionStorage.setItem('septimo_delivery_token',value);history.replaceState(null,'',location.pathname)}catch{}}
 async function start(){
@@ -9,6 +11,7 @@ async function start(){
  if(sessionId&&!token){accessStatus.textContent='Verificando la aprobación de tu pago…';const response=await fetch('/api/delivery-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({session_id:sessionId})});const data=await response.json();if(response.status===202){accessStatus.textContent=data.message;attempts++;if(attempts<10)setTimeout(start,4000);else{retry.hidden=false;error.textContent='Tu pago aún no está confirmado. No necesitas pagar de nuevo. Puedes volver a verificar o utilizar el correo de tu pedido.'}return}if(!response.ok||!data.token)throw Error(data.error||'No pudimos validar el pago.');storeToken(data.token)}
  if(!token){accessStatus.textContent='Abre tu enlace personal de acceso.';error.textContent='Regresa desde la confirmación del pago o abre el enlace del correo de compra. No se liberan archivos sin un pago aprobado.';return}
  const response=await fetch('/api/delivery-access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token})});const data=await response.json();if(!response.ok)throw Error(data.error||'No pudimos validar el acceso.');
+ if(sessionId)window.SiteAnalytics?.purchase(data.purchase);
  accessStatus.textContent=data.plan==='audios'?'Tus audios están disponibles, junto con los materiales vigentes de tu compra original.':data.plan==='completa'?'Pago aprobado · Experiencia Completa · Libro + 4 bonos':'Pago aprobado · Edición Esencial · Libro + Diario del Despertar';render(data.files);document.getElementById('delivery-help').hidden=false;document.getElementById('audio-instructions').hidden=data.plan!=='audios';
  if(data.support){const a=document.getElementById('support-link');a.href='mailto:'+data.support;a.hidden=false}
  document.getElementById('upsell').hidden=!data.upsell;

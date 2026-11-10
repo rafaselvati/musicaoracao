@@ -10,3 +10,7 @@ for filename,script in [('checkout.html','checkout.js'),('entrega.html','deliver
  f=p/'dist'/filename;f.write_text(f.read_text().replace(f'<script src="{script}">',f'<script>window.SITE_PREVIEW=true;</script><script src="{script}">'))
 assert not list((p/'public').rglob('*.pdf'))
 assert not list((p/'dist').rglob('*.pdf'))
+
+# Disable real metrics on all hosted preview pages.
+for f in (p/"dist").glob("*.html"):
+ f.write_text(f.read_text().replace("<head>","<head><script>window.SITE_PREVIEW=true;</script>",1))
