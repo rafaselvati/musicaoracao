@@ -1,0 +1,17 @@
+const accessStatus=document.getElementById('access-status'),error=document.getElementById('delivery-error'),grid=document.getElementById('delivery-grid');
+const params=new URLSearchParams(location.search);let token=params.get('token');
+try{if(token){sessionStorage.setItem('septimo_delivery_token',token);history.replaceState(null,'',location.pathname)}else token=sessionStorage.getItem('septimo_delivery_token')}catch{}
+async function start(){
+ if(window.SITE_PREVIEW){accessStatus.textContent='Vista previa de la biblioteca. Las descargas se habilitan después de validar una compra en la instalación de Vercel.';render([{id:'libro',title:'Desbloquea Tu Séptimo Sentido',pages:35},{id:'diario',title:'Diario del Despertar',pages:27},{id:'oraciones',title:'Bajo Sus Alas',pages:17},{id:'salmos',title:'7 Noches con los Salmos',pages:17},{id:'tarjetas',title:'Palabras de Luz',pages:9}],true);return}
+ if(!token){accessStatus.textContent='Abre tu enlace personal de acceso.';error.textContent='Lo encontrarás en el correo que recibiste después de la compra. Por tu seguridad, esta página no permite descargar sin validar el pedido.';return}
+ try{const response=await fetch('/api/delivery-access',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token})});const data=await response.json();if(!response.ok)throw Error(data.error||'No pudimos validar el acceso.');
+ accessStatus.textContent=data.plan==='completa'?'Experiencia Completa · Libro + 4 bonos':'Edición Esencial · Libro + Diario del Despertar';render(data.files);document.getElementById('delivery-help').hidden=false;
+ if(data.support){const a=document.getElementById('support-link');a.href='mailto:'+data.support;a.hidden=false}
+ if(data.upsell?.url&&/^https:\/\//.test(data.upsell.url)){document.getElementById('upsell').hidden=false;document.getElementById('upsell-link').href=data.upsell.url}
+ }catch(e){accessStatus.textContent='Acceso pendiente de validación.';error.textContent=e.message||'No pudimos conectar. Intenta abrir nuevamente el enlace de tu correo.'}
+}
+function render(files,preview=false){for(const file of files){const card=document.createElement('article');card.className='download-card';const h=document.createElement('h3');h.textContent=file.title;const p=document.createElement('p');p.textContent=file.pages+' páginas · PDF en español';const button=document.createElement('button');button.className='btn';button.textContent=preview?'Vista previa · Descarga protegida':'Descargar mi material ↓';button.disabled=preview;if(!preview)button.addEventListener('click',()=>download(file,button));card.append(h,p,button);grid.append(card)}}
+async function download(file,button){button.disabled=true;button.textContent='Preparando…';error.textContent='';try{const response=await fetch('/api/download',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,file:file.id})});if(!response.ok){let data={};try{data=await response.json()}catch{}throw Error(data.error||'No se pudo descargar el archivo.')}
+ if(!response.headers.get('Content-Type')?.includes('application/pdf'))throw Error('El archivo no está disponible. Contacta soporte.');const blob=await response.blob(),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=file.title.replace(/[^\p{L}\p{N} -]/gu,'')+'.pdf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);
+ }catch(e){error.textContent=e.message}finally{button.disabled=false;button.textContent='Descargar mi material ↓'}}
+start();

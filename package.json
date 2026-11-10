@@ -1,1 +1,1 @@
-{"name":"septimo-sentido-stripe","version":"1.0.0","private":true,"scripts":{"test":"node --test tests/checkout.test.js"},"dependencies":{"stripe":"^20.0.0"}}
+{"name": "septimo-sentido-stripe", "version": "1.0.0", "private": true, "scripts": {"test": "node --test tests/*.test.js"}, "dependencies": {"stripe": "^20.0.0"}}

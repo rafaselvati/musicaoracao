@@ -1,6 +1,6 @@
 const Stripe = require('stripe');
 const PLANS = Object.freeze({
-  esencial: {amount: 990, name: 'Desbloquea Tu Séptimo Sentido — Edición Esencial'},
+  esencial: {amount: 990, name: 'Desbloquea Tu Séptimo Sentido — Edición Esencial + Diario del Despertar'},
   completa: {amount: 1990, name: 'Desbloquea Tu Séptimo Sentido — Experiencia Completa + 4 bonos'}
 });
 module.exports = async (req, res) => {
@@ -9,6 +9,7 @@ module.exports = async (req, res) => {
   const key = req.body?.plan;
   if (typeof key !== 'string' || !Object.hasOwn(PLANS, key)) return res.status(400).json({error: 'Selecciona una edición válida.'});
   if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_PUBLISHABLE_KEY) return res.status(503).json({error: 'El pago no está disponible en este momento. Intenta nuevamente más tarde.'});
+  if (!process.env.DELIVERY_SECRET || process.env.DELIVERY_SECRET.length < 32 || !process.env.PUBLIC_SITE_URL?.startsWith('https://') || !process.env.RESEND_API_KEY || !process.env.RESEND_FROM_EMAIL || !process.env.PEDIDOS_EMAIL || !process.env.SUPPORT_EMAIL || !process.env.STRIPE_WEBHOOK_SECRET) return res.status(503).json({error: 'Estamos preparando el acceso a los materiales. Intenta nuevamente más tarde.'});
   const plan = PLANS[key];
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {apiVersion: '2026-03-25.dahlia'});
