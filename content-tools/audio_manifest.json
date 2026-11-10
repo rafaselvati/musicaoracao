@@ -1,0 +1,72 @@
+[
+  {
+    "id": "audio1",
+    "file": "audio/01_Pausa_396Hz.mp3",
+    "title": "Pausa",
+    "frequency_hz": 396,
+    "duration_seconds": 300,
+    "size_bytes": 3601066,
+    "source_peak": 0.38554489612579346,
+    "source_rms": 0.15612013141737185
+  },
+  {
+    "id": "audio2",
+    "file": "audio/02_Presencia_417Hz.mp3",
+    "title": "Presencia",
+    "frequency_hz": 417,
+    "duration_seconds": 300,
+    "size_bytes": 3601070,
+    "source_peak": 0.38553372025489807,
+    "source_rms": 0.15612013130508665
+  },
+  {
+    "id": "audio3",
+    "file": "audio/03_Espacio_432Hz.mp3",
+    "title": "Espacio",
+    "frequency_hz": 432,
+    "duration_seconds": 300,
+    "size_bytes": 3601068,
+    "source_peak": 0.38554519414901733,
+    "source_rms": 0.15612013128367425
+  },
+  {
+    "id": "audio4",
+    "file": "audio/04_Quietud_528Hz.mp3",
+    "title": "Quietud",
+    "frequency_hz": 528,
+    "duration_seconds": 300,
+    "size_bytes": 3601068,
+    "source_peak": 0.3855452239513397,
+    "source_rms": 0.1561201313204678
+  },
+  {
+    "id": "audio5",
+    "file": "audio/05_Encuentro_639Hz.mp3",
+    "title": "Encuentro",
+    "frequency_hz": 639,
+    "duration_seconds": 300,
+    "size_bytes": 3601070,
+    "source_peak": 0.38554519414901733,
+    "source_rms": 0.15612013078374387
+  },
+  {
+    "id": "audio6",
+    "file": "audio/06_Horizonte_741Hz.mp3",
+    "title": "Horizonte",
+    "frequency_hz": 741,
+    "duration_seconds": 300,
+    "size_bytes": 3601070,
+    "source_peak": 0.38554567098617554,
+    "source_rms": 0.15612013141246606
+  },
+  {
+    "id": "audio7",
+    "file": "audio/07_Continuidad_852Hz.mp3",
+    "title": "Continuidad",
+    "frequency_hz": 852,
+    "duration_seconds": 300,
+    "size_bytes": 3601072,
+    "source_peak": 0.3855443596839905,
+    "source_rms": 0.1561201313109159
+  }
+]

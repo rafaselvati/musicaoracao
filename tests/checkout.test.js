@@ -5,8 +5,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 function load(file, env = {}, options = {}) {
   const calls = {sessions: [], emails: []};
-  class Stripe { constructor() { this.checkout={sessions:{create:async data=>{calls.sessions.push(data);return {client_secret:'mock_secret'}}}};this.webhooks={constructEvent:()=>{if(options.badSignature)throw Error('bad');return options.event}}; } }
-  const context = {module:{exports:{}}, require:name=>{if(name==='stripe')return Stripe;if(name==='../lib/delivery')return {deliveryURL:()=>{if(!env.DELIVERY_SECRET)throw Error('missing');return 'https://example.test/entrega.html?token=test'}};return require(name)},process:{env},console:{error:()=>{}},Buffer,fetch:async(url,args)=>{calls.emails.push({url,...args});return {ok:options.emailSuccess!==false,status:502}}};
+  class Stripe { constructor() { this.checkout={sessions:{create:async data=>{calls.sessions.push(data);return {id:'cs_test_new',client_secret:'mock_secret'}}}};this.webhooks={constructEvent:()=>{if(options.badSignature)throw Error('bad');return options.event}}; } }
+  const context = {module:{exports:{}}, require:name=>{if(name==='stripe')return Stripe;if(name==='../lib/delivery')return {authorize:async token=>{if(!options.parentAccess||token!=='parent-token')throw Error('invalid access');return options.parentAccess},deliveryURL:()=>{if(!env.DELIVERY_SECRET)throw Error('missing');return 'https://example.test/entrega.html?token=test'}};return require(name)},process:{env},console:{error:()=>{}},Buffer,fetch:async(url,args)=>{calls.emails.push({url,...args});return {ok:options.emailSuccess!==false,status:502}}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','api',file),'utf8'),context);
   return {handler:context.module.exports,calls};
 }
@@ -25,3 +25,15 @@ test('unpaid and unrelated product events never fulfill',async()=>{for(const ove
 test('wrong currency or amount never fulfills',async()=>{for(const override of [{currency:'brl'},{amount_total:1}]){const r=await webhook({event:event(override)});assert.equal(r.response.code,400);assert.equal(r.calls.emails.length,0)}});
 test('both editions receive correct delivery link and stable idempotency keys',async()=>{for(const plan of ['esencial','completa']){const ev=event({amount_total:plan==='esencial'?990:1990,metadata:{product:'septimo_sentido',plan}});const first=await webhook({event:ev}),second=await webhook({event:ev});assert.equal(first.response.code,200);assert.equal(first.calls.emails.length,2);const email=JSON.parse(first.calls.emails[0].body);assert.ok(email.text.includes('/entrega.html?token='));assert.equal(email.reply_to,deliveryEnv.SUPPORT_EMAIL);assert.equal(first.calls.emails[0].headers['Idempotency-Key'],second.calls.emails[0].headers['Idempotency-Key'])}});
 test('delivery failure requests retry rather than acknowledging success',async()=>{const missing=await webhook({event:event()},{...deliveryEnv,DELIVERY_SECRET:''});assert.equal(missing.response.code,503);assert.equal(missing.calls.emails.length,0);const failed=await webhook({event:event(),emailSuccess:false});assert.equal(failed.response.code,502)});
+
+test('both editions open checkout with only the original Stripe keys, independently of delivery',async()=>{for(const plan of ['esencial','completa']){const {handler,calls}=load('create-checkout-session.js',{STRIPE_SECRET_KEY:'test-only',STRIPE_PUBLISHABLE_KEY:'test-only'});const response=res();await handler({method:'POST',body:{plan}},response);assert.equal(response.code,200);assert.equal(calls.sessions.length,1);assert.equal(response.body.client_secret,'mock_secret');assert.equal(calls.sessions[0].locale,'es')}});
+
+test('audio upsell requires a paid original purchase and fixes 29.90 USD',async()=>{
+ const parent={plan:'esencial',session:{id:'cs_test_parent'}};
+ const {handler,calls}=load('create-checkout-session.js',env,{parentAccess:parent});
+ const response=res();await handler({method:'POST',body:{plan:'audios',parent_token:'parent-token',amount:1,parent_session:'cs_test_forged'}},response);
+ assert.equal(response.code,200);assert.equal(response.body.session_id,'cs_test_new');assert.equal(calls.sessions[0].line_items[0].price_data.unit_amount,2990);assert.equal(calls.sessions[0].line_items[0].price_data.currency,'usd');assert.equal(calls.sessions[0].metadata.parent_session,'cs_test_parent');
+ const bad=res();await handler({method:'POST',body:{plan:'audios'}},bad);assert.equal(bad.code,403);
+ const owned=load('create-checkout-session.js',env,{parentAccess:{plan:'audios',session:{id:'cs_test_audio'}}});const duplicate=res();await owned.handler({method:'POST',body:{plan:'audios',parent_token:'parent-token'}},duplicate);assert.equal(duplicate.code,409);assert.equal(owned.calls.sessions.length,0);
+});
+test('audio webhook confirms the audio product and never uses the book-only wording',async()=>{const r=await webhook({event:event({amount_total:2990,metadata:{product:'septimo_sentido',plan:'audios'}})});assert.equal(r.response.code,200);const email=JSON.parse(r.calls.emails[0].body);assert.match(email.subject,/audios/);assert.match(email.text,/siete audios/)});

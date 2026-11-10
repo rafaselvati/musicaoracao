@@ -8,7 +8,7 @@ module.exports=async(req,res)=>{
   if(typeof id!=='string'||!access.files.includes(id)||!Object.hasOwn(catalog,id))return res.status(403).json({error:'Este material no está incluido en tu edición.'});
   const file=catalog[id].file;
   const bytes=await fs.readFile(path.join(process.cwd(),'private_files',file));
-  res.setHeader('Content-Type','application/pdf');res.setHeader('Content-Disposition','attachment; filename="'+file+'"');
+  res.setHeader('Content-Type',catalog[id].type==='audio'?'audio/mpeg':'application/pdf');res.setHeader('Content-Disposition','attachment; filename="'+path.basename(file)+'"');
   return res.status(200).send(bytes);
  }catch{return res.status(403).json({error:'No pudimos validar la descarga. Vuelve al enlace de tu correo o solicita ayuda respondiendo al correo del pedido.'})}
 };
