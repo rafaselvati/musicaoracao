@@ -1,1 +1,1 @@
-{"functions":{"api/stripe-webhook.js":{"maxDuration":30}}}
+{"functions":{"api/stripe-webhook.js":{"maxDuration":30}},"redirects":[{"source":"/formulario.html","destination":"/#ofertas","permanent":false},{"source":"/enviar-fotos.html","destination":"/","permanent":false}]}
